@@ -9,6 +9,7 @@ Animated credit card showcase built with Flutter.
 3. Tap a gradient swatch to change the card theme.
 4. Drag the card to tilt it, or tap the card to flip it.
 
-## Notes
+### Project Screenshots
 
-The app uses the SVG logos already present in `assets/` and `flutter_svg` for rendering them.
+<img src="App Front.png" width="24%"/> <img src="App Back.png" width="24%"/> <img src="App Front 2.png" width="24%"/> <img src="App Save Feature.png" width="24%"/>
+
