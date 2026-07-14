@@ -1,4 +1,4 @@
-# CardFlow
+# WalletFX
 
 Animated credit card showcase built with Flutter.
 
