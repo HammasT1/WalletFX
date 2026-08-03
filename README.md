@@ -1,21 +1,24 @@
 # 💳 WalletFX — Animated Credit Card App (Flutter)
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Framework-Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
+  <img src="https://img.shields.io/badge/Language-Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
+  <img src="https://img.shields.io/badge/UI%2FUX-Animations-b19cd9?style=for-the-badge&logo=shopify&logoColor=white" />
+  <img src="https://img.shields.io/badge/Status-Active%20&%20Polished-success?style=for-the-badge" />
+</p>
+
 ---
 
 ## 📱 App Animation & Screenshots
 
 > ### 🎬 App Animation GIF
 > 
-> 
+> ![App Animation GIF](https://github.com/HammasT1/WalletFX/blob/main/App%20Back.png?raw=true)
 
 > ### 📸 App Screenshots
-> 
-> 
 > | Front View 1 | Front View 2 | Back View | Save Feature |
-> | --- | --- | --- | --- |
-> |  |  |  |  |
-> 
-> 
+> | :---: | :---: | :---: | :---: |
+> | ![Front View 1](https://github.com/HammasT1/WalletFX/blob/main/App%20Front.png?raw=true) | ![Front View 2](https://github.com/HammasT1/WalletFX/blob/main/App%20Front%202.png?raw=true) | ![Back View](https://github.com/HammasT1/WalletFX/blob/main/App%20Back.png?raw=true) | ![Save Feature](https://github.com/HammasT1/WalletFX/blob/main/App%20Save%20Feature.png?raw=true) |
 
 ---
 
@@ -31,7 +34,7 @@
 * **State Management:** Employs a clean, modular approach utilizing Flutter's built-in UI state control and explicit animation controllers to manage dynamic card rotations, swatch selections, and the interactive save-feature views.
 * **Advanced Animations:** Implements explicit controllers and matrix transformations to handle seamless 3D-like card flipping and rotation interactions.
 * **Custom Painters (`Card Painter`):** Utilized for drawing precise card patterns, chip layouts, network logos, and dynamic visual gradients.
-* **State Management & Modularity:** Clean separation of concerns with structured models (`card_gradient_theme.dart`), formatters (`card_number_formatter.dart`), and custom widgets.
+* **Modularity:** Clean separation of concerns with structured models (`card_gradient_theme.dart`), formatters (`card_number_formatter.dart`), and custom widgets.
 * **Asset Integration:** Tailored SVG assets and styling configurations for major card networks (Visa, Mastercard, American Express, Discover).
 
 ---
@@ -42,7 +45,7 @@ Ensure you have the [Flutter SDK](https://docs.flutter.dev/get-started/install) 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/HammasT1/WalletFX.git
+git clone [https://github.com/HammasT1/WalletFX.git](https://github.com/HammasT1/WalletFX.git)
 
 # 2. Navigate to the project directory
 cd WalletFX-main
@@ -52,13 +55,3 @@ flutter pub get
 
 # 4. Launch the application
 flutter run
-
-```
-
----
-
-## 👨‍💻 Author
-
-**Hammas Rasheed**
-
-*Professional Flutter Developer*
