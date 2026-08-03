@@ -10,7 +10,7 @@
 ---
 
 > ### 🎬 App Animation GIF
-> ![WalletFX Animation](https://github.com/HammasT1/WalletFX/blob/main/images/your-animation-name.gif?raw=true)
+> ![WalletFX Animation](https://github.com/HammasT1/WalletFX/blob/main/assets/WalletFX_GIF.gif?raw=true)
 
 > ### 📸 App Screenshots
 > | Front View 1 | Front View 2 | Back View | Save Feature |
