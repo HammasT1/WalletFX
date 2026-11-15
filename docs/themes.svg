@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 210" width="1200" height="210" role="img" aria-label="The five WalletFX card themes: Midnight Purple, Sunset Orange, Ocean Blue, Emerald Green and Rose Gold">
+  <defs>
+    <linearGradient id="t1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F0C29"/><stop offset="0.5" stop-color="#302B63"/><stop offset="1" stop-color="#24243E"/></linearGradient>
+    <linearGradient id="t2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF512F"/><stop offset="1" stop-color="#F09819"/></linearGradient>
+    <linearGradient id="t3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2193B0"/><stop offset="1" stop-color="#6DD5ED"/></linearGradient>
+    <linearGradient id="t4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#134E5E"/><stop offset="1" stop-color="#71B280"/></linearGradient>
+    <linearGradient id="t5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B76E79"/><stop offset="1" stop-color="#E8C4C4"/></linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="c"><rect width="200" height="126" rx="16"/></clipPath>
+    <g id="face">
+      <rect x="16" y="16" width="30" height="22" rx="5" fill="#FFFFFF" fill-opacity="0.26" stroke="#FFFFFF" stroke-opacity="0.4"/>
+      <circle cx="164" cy="27" r="9" fill="#FFFFFF" fill-opacity="0.85"/>
+      <circle cx="176" cy="27" r="9" fill="#FFFFFF" fill-opacity="0.45"/>
+      <text x="16" y="104" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="1.6">•••• 4242</text>
+      <rect x="0.5" y="0.5" width="199" height="125" rx="15.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.22"/>
+    </g>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .card { animation: bob 5s ease-in-out infinite; }
+    .c2 { animation-delay: -1s; } .c3 { animation-delay: -2s; } .c4 { animation-delay: -3s; } .c5 { animation-delay: -4s; }
+    .sweep { animation: sweep 5s ease-in-out infinite; }
+    .s2 { animation-delay: 0.5s; } .s3 { animation-delay: 1s; } .s4 { animation-delay: 1.5s; } .s5 { animation-delay: 2s; }
+    @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes sweep { 0%, 30% { transform: translateX(-140px); } 60%, 100% { transform: translateX(300px); } }
+    @media (prefers-reduced-motion: reduce) { .card, .sweep { animation: none; } }
+  </style>
+
+  <rect width="1200" height="210" rx="24" fill="#141416"/>
+
+  <g transform="translate(40 30)">
+    <g class="card"><g clip-path="url(#c)"><rect width="200" height="126" fill="url(#t1)"/><rect class="sweep" x="0" y="-10" width="70" height="150" fill="url(#shine)" transform="skewX(-20)"/></g><use href="#face"/></g>
+    <text x="100" y="158" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">Midnight Purple</text>
+  </g>
+  <g transform="translate(270 30)">
+    <g class="card c2"><g clip-path="url(#c)"><rect width="200" height="126" fill="url(#t2)"/><rect class="sweep s2" x="0" y="-10" width="70" height="150" fill="url(#shine)" transform="skewX(-20)"/></g><use href="#face"/></g>
+    <text x="100" y="158" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sunset Orange</text>
+  </g>
+  <g transform="translate(500 30)">
+    <g class="card c3"><g clip-path="url(#c)"><rect width="200" height="126" fill="url(#t3)"/><rect class="sweep s3" x="0" y="-10" width="70" height="150" fill="url(#shine)" transform="skewX(-20)"/></g><use href="#face"/></g>
+    <text x="100" y="158" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">Ocean Blue</text>
+  </g>
+  <g transform="translate(730 30)">
+    <g class="card c4"><g clip-path="url(#c)"><rect width="200" height="126" fill="url(#t4)"/><rect class="sweep s4" x="0" y="-10" width="70" height="150" fill="url(#shine)" transform="skewX(-20)"/></g><use href="#face"/></g>
+    <text x="100" y="158" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">Emerald Green</text>
+  </g>
+  <g transform="translate(960 30)">
+    <g class="card c5"><g clip-path="url(#c)"><rect width="200" height="126" fill="url(#t5)"/><rect class="sweep s5" x="0" y="-10" width="70" height="150" fill="url(#shine)" transform="skewX(-20)"/></g><use href="#face"/></g>
+    <text x="100" y="158" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">Rose Gold</text>
+  </g>
+</svg>

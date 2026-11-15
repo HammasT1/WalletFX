@@ -1,54 +1,221 @@
-# 💳 WalletFX — Animated Credit Card App (Flutter)
+<p align="center">
+  <img src="docs/banner.svg" alt="WalletFX — an animated credit card experience, built with Flutter" width="100%" />
+</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Framework-Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-  <img src="https://img.shields.io/badge/Language-Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
-  <img src="https://img.shields.io/badge/UI%2FUX-Animations-b19cd9?style=for-the-badge&logo=shopify&logoColor=white" />
-  <img src="https://img.shields.io/badge/Status-Active%20&%20Polished-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.9+-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart 3.9+" />
+  <img src="https://img.shields.io/badge/Material-3-7C4DFF?style=for-the-badge&logo=materialdesign&logoColor=white" alt="Material 3" />
+  <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20Web%20%7C%20Windows-1C1C1E?style=for-the-badge" alt="Platforms: Android, Web, Windows" />
+</p>
+
+<p align="center">
+  <a href="#-demo">Demo</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-gestures">Gestures</a> ·
+  <a href="#-animation-breakdown">Animations</a> ·
+  <a href="#-theme-library">Themes</a> ·
+  <a href="#-project-structure">Structure</a> ·
+  <a href="#-getting-started">Getting Started</a>
 </p>
 
 ---
 
-> ### 🎬 App Animation GIF
-> ![WalletFX Animation](https://github.com/HammasT1/WalletFX/blob/main/assets/WalletFX_GIF.gif?raw=true)
+## 💡 About
 
-> ### 📸 App Screenshots
-> | Front View 1 | Front View 2 | Back View | Save Feature |
-> | :---: | :---: | :---: | :---: |
-> | ![Front View 1](https://github.com/HammasT1/WalletFX/blob/main/App%20Front.png?raw=true) | ![Front View 2](https://github.com/HammasT1/WalletFX/blob/main/App%20Front%202.png?raw=true) | ![Back View](https://github.com/HammasT1/WalletFX/blob/main/App%20Back.png?raw=true) | ![Save Feature](https://github.com/HammasT1/WalletFX/blob/main/App%20Save%20Feature.png?raw=true) |
+**WalletFX** is a Flutter app built around one thing: a credit card that feels good to touch. The card flips in 3D, tilts under your finger, catches a sweep of light, and reveals its digits one flip at a time, all on a dark interface whose ambient glow follows the theme you pick.
+
+It is a UI and motion showcase. The card details are placeholder data, and nothing is stored or sent anywhere.
 
 ---
 
-## 💡 Project Description
+## 🎬 Demo
 
-**WalletFX** is a specialized, beautifully engineered Flutter mobile application built to showcase smooth, interactive credit card animations[cite: 2]. It features fluid card rotation dynamics, custom visual gradients, secure number formatting, and an immersive UI/UX designed to simulate modern digital wallet experiences.
+<p align="center">
+  <img src="assets/WalletFX_GIF.gif" alt="WalletFX in motion" width="300" />
+</p>
+
+<table align="center">
+  <tr>
+    <th>Front</th>
+    <th>Themed</th>
+    <th>Back</th>
+    <th>Saved looks</th>
+  </tr>
+  <tr>
+    <td><img src="App%20Front.png" alt="Card front" width="200" /></td>
+    <td><img src="App%20Front%202.png" alt="Card front with another theme" width="200" /></td>
+    <td><img src="App%20Back.png" alt="Card back" width="200" /></td>
+    <td><img src="App%20Save%20Feature.png" alt="Saved looks row" width="200" /></td>
+  </tr>
+</table>
 
 ---
 
-## 🛠️ Concepts, State Management & Technologies Used
+## ✨ Features
 
-* **Flutter & Dart:** Core cross-platform mobile app framework and programming language[cite: 2].
-* **State Management:** Employs a clean, modular approach utilizing Flutter's built-in UI state control and explicit animation controllers to manage dynamic card rotations, swatch selections, and the interactive save-feature views.
-* **Advanced Animations:** Implements explicit controllers and matrix transformations to handle seamless 3D-like card flipping and rotation interactions.
-* **Custom Painters (`Card Painter`):** Utilized for drawing precise card patterns, chip layouts, network logos, and dynamic visual gradients.
-* **Modularity:** Clean separation of concerns with structured models (`card_gradient_theme.dart`), formatters (`card_number_formatter.dart`), and custom widgets.
-* **Asset Integration:** Tailored SVG assets and styling configurations for major card networks (Visa, Mastercard, American Express, Discover).
+| | Feature | What it does |
+| :---: | :--- | :--- |
+| 🔄 | **3D card flip** | Tap the card to rotate it around the Y axis with real perspective and a slight overshoot. |
+| 🖐️ | **Touch tilt** | Drag across the card and it leans toward your finger, then settles back when you let go. |
+| ✨ | **Shine sweep** | A band of light crosses the card on entry and every time the theme changes. |
+| 👁️ | **Number peek** | The eye button reveals the masked digits with a staggered flip; the last four stay visible. |
+| 🔐 | **CVV reveal** | Tap the CVV box on the back to show or hide the code. |
+| 🎨 | **Theme library** | Five gradient themes, each paired with a card network logo. |
+| 🔖 | **Save this look** | Bookmark themes into an animated row, tap one to apply it, long-press to remove it. |
+| 🌌 | **Ambient glow** | The blurred background glow cross-fades to match the selected theme. |
+| 📳 | **Haptic feedback** | Light haptics on theme selection, saving, and removal. |
+| 📐 | **Responsive layout** | The card keeps the standard 1.586 aspect ratio and caps its width on large screens. |
 
 ---
 
-## 🚀 How to Run the Project
+## 👆 Gestures
 
-Ensure you have the [Flutter SDK](https://docs.flutter.dev/get-started/install) installed on your system. Run the following commands in your terminal to set up and run WalletFX locally:
+| Gesture | Where | Result |
+| :--- | :--- | :--- |
+| **Tap** | Card | Flip between front and back |
+| **Drag** | Card | Tilt in 3D, following your finger |
+| **Tap** | Eye icon (front) | Peek or hide the full card number |
+| **Tap** | CVV box (back) | Show or hide the CVV |
+| **Tap** | Theme swatch | Switch the card gradient and background glow |
+| **Tap** | *Save this look* | Add the current theme to your saved row |
+| **Tap** | Saved thumbnail | Apply that look again |
+| **Long-press** | Saved thumbnail | Remove it from the row |
+
+---
+
+## 🎥 Animation Breakdown
+
+Every motion in the app is hand-tuned. The card itself is driven by three explicit `AnimationController`s merged into a single `AnimatedBuilder`; the rest uses Flutter's implicit animations.
+
+| Animation | Duration | Curve | Technique |
+| :--- | :---: | :--- | :--- |
+| Card entry (fade, lift, scale) | 900 ms | `easeOutCubic` | `AnimationController` + `Transform` |
+| Shine sweep | 10–85% of entry | `easeInOut` | `Interval` on the entry controller |
+| Card flip | 700 ms | `easeInOutBack` | `Matrix4` with perspective, `rotateY` 0 → π |
+| Touch tilt | follows the finger | — | `rotateX` / `rotateY` from the pan position |
+| Number peek | 760 ms | `easeInOutCubic`, staggered per digit | Per-digit 3D flip |
+| Card gradient change | 500 ms | `easeOutCubic` / `easeInCubic` | `AnimatedSwitcher` |
+| Ambient glow change | 520 ms | `easeOutCubic` / `easeInCubic` | `AnimatedSwitcher` + `BackdropFilter` blur |
+| Swatch selection | 180–220 ms | `easeOut` | `AnimatedScale`, `AnimatedContainer`, `AnimatedOpacity` |
+| CVV and eye icon swap | 220 ms | `easeOutCubic` / `easeInCubic` | `ScaleTransition` + `FadeTransition` |
+| Saved look insert | list default | `easeOutBack` | `AnimatedList` with size, fade and scale |
+| Saved look removal | 280 ms | linear | `AnimatedList.removeItem` |
+
+<details>
+<summary><b>How the 3D flip works</b></summary>
+<br />
+
+Both faces of the card sit in the same `Stack`. Each gets a `Matrix4` with a perspective entry, the current tilt, and a Y rotation. The back face is offset by π, so it is always the mirror of the front, and the face that is pointing away from the viewer is hidden at the halfway mark.
+
+```dart
+final baseMatrix = Matrix4.identity()
+  ..setEntry(3, 2, 0.0015)      // perspective
+  ..rotateX(_tiltOffset.dy)     // touch tilt
+  ..rotateY(_tiltOffset.dx);
+
+final frontMatrix = baseMatrix.clone()..rotateY(flipValue);
+final backMatrix  = baseMatrix.clone()..rotateY(flipValue + math.pi);
+```
+
+</details>
+
+---
+
+## 🎨 Theme Library
+
+<p align="center">
+  <img src="docs/themes.svg" alt="The five WalletFX card themes" width="100%" />
+</p>
+
+| Theme | Gradient | Network |
+| :--- | :--- | :--- |
+| **Midnight Purple** | `#0F0C29` → `#302B63` → `#24243E` | Visa |
+| **Sunset Orange** | `#FF512F` → `#F09819` | Mastercard |
+| **Ocean Blue** | `#2193B0` → `#6DD5ED` | American Express |
+| **Emerald Green** | `#134E5E` → `#71B280` | Discover |
+| **Rose Gold** | `#B76E79` → `#E8C4C4` | Visa |
+
+Adding a theme is one entry in [lib/models/card_gradient_theme.dart](lib/models/card_gradient_theme.dart):
+
+```dart
+CardGradientTheme(
+  name: 'Arctic Mint',
+  colors: [Color(0xFF00B09B), Color(0xFF96C93D)],
+  assetPath: 'assets/visa.svg',
+),
+```
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Choice |
+| :--- | :--- |
+| **Framework** | Flutter, Material 3, dark theme |
+| **Language** | Dart `^3.9.2` |
+| **State** | `StatefulWidget` + `setState`, no external state library |
+| **Animation** | Explicit `AnimationController`s, `Matrix4` transforms, implicit animated widgets, `AnimatedList` |
+| **Drawing** | `CustomPainter` for the card surface and chip |
+| **Assets** | SVG network logos rendered with [`flutter_svg`](https://pub.dev/packages/flutter_svg) |
+
+---
+
+## 📂 Project Structure
+
+```text
+lib/
+├── main.dart                        # App shell, theme library, saved looks, ambient glow
+├── models/
+│   └── card_gradient_theme.dart     # Theme model and the five built-in gradients
+├── utils/
+│   └── card_number_formatter.dart   # Groups card digits in blocks of four
+└── widgets/
+    ├── credit_card_widget.dart      # Card faces, flip, tilt, peek, shine, chip
+    ├── card_painter.dart            # CustomPainter for the card surface
+    └── gradient_swatch_picker.dart  # Animated theme swatches
+
+assets/                              # Network logos (SVG), app icon, demo GIF
+docs/                                # README artwork
+```
+
+---
+
+## 🚀 Getting Started
+
+**Prerequisites:** the [Flutter SDK](https://docs.flutter.dev/get-started/install) with Dart 3.9.2 or newer (Flutter 3.35+).
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/HammasT1/WalletFX.git](https://github.com/HammasT1/WalletFX.git)
+git clone https://github.com/HammasT1/WalletFX.git
 
-# 2. Navigate to the project directory
-cd WalletFX-main
+# 2. Move into the project
+cd WalletFX
 
-# 3. Install project dependencies
+# 3. Install dependencies
 flutter pub get
 
-# 4. Launch the application
+# 4. Run on a connected device or emulator
 flutter run
+```
+
+Run on a specific platform:
+
+```bash
+flutter run -d chrome     # Web
+flutter run -d windows    # Windows desktop
+```
+
+Build a release APK:
+
+```bash
+flutter build apk --release
+```
+
+---
+
+## 👤 Author
+
+**Muhammad Hammas Rasheed** — [@HammasT1](https://github.com/HammasT1)
+
+If WalletFX was useful or fun to play with, a ⭐ on the repo is appreciated.

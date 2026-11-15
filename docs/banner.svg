@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="1200" height="340" role="img" aria-label="WalletFX — animated credit card app built with Flutter">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1C1C1E"/>
+      <stop offset="1" stop-color="#0E0E10"/>
+    </linearGradient>
+
+    <!-- Card gradient cycles through the five in-app themes -->
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F0C29">
+        <animate attributeName="stop-color" dur="15s" repeatCount="indefinite"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          values="#0F0C29;#0F0C29;#FF512F;#FF512F;#2193B0;#2193B0;#134E5E;#134E5E;#B76E79;#B76E79;#0F0C29"/>
+      </stop>
+      <stop offset="0.5" stop-color="#302B63">
+        <animate attributeName="stop-color" dur="15s" repeatCount="indefinite"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          values="#302B63;#302B63;#F87524;#F87524;#47B4CF;#47B4CF;#42806F;#42806F;#D0999F;#D0999F;#302B63"/>
+      </stop>
+      <stop offset="1" stop-color="#24243E">
+        <animate attributeName="stop-color" dur="15s" repeatCount="indefinite"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          values="#24243E;#24243E;#F09819;#F09819;#6DD5ED;#6DD5ED;#71B280;#71B280;#E8C4C4;#E8C4C4;#24243E"/>
+      </stop>
+    </linearGradient>
+
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#5B4FD6" stop-opacity="0.55">
+        <animate attributeName="stop-color" dur="15s" repeatCount="indefinite"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          values="#5B4FD6;#5B4FD6;#F87524;#F87524;#47B4CF;#47B4CF;#42806F;#42806F;#D0999F;#D0999F;#5B4FD6"/>
+      </stop>
+      <stop offset="1" stop-color="#121212" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#B9C8FF"/>
+    </linearGradient>
+
+    <linearGradient id="t1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F0C29"/><stop offset="0.5" stop-color="#302B63"/><stop offset="1" stop-color="#24243E"/></linearGradient>
+    <linearGradient id="t2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF512F"/><stop offset="1" stop-color="#F09819"/></linearGradient>
+    <linearGradient id="t3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2193B0"/><stop offset="1" stop-color="#6DD5ED"/></linearGradient>
+    <linearGradient id="t4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#134E5E"/><stop offset="1" stop-color="#71B280"/></linearGradient>
+    <linearGradient id="t5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B76E79"/><stop offset="1" stop-color="#E8C4C4"/></linearGradient>
+
+    <clipPath id="cardClip"><rect x="90" y="69" width="320" height="202" rx="22"/></clipPath>
+    <clipPath id="frame"><rect width="1200" height="340" rx="24"/></clipPath>
+  </defs>
+
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .float { animation: float 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .sweep { animation: sweep 5s ease-in-out infinite; }
+    .rise  { animation: rise 0.9s cubic-bezier(0.33, 1, 0.68, 1) both; }
+    .d1 { animation-delay: 0.15s; } .d2 { animation-delay: 0.3s; } .d3 { animation-delay: 0.45s; }
+    .phrase { opacity: 0; animation: phrase 12s ease-in-out infinite; }
+    .p2 { animation-delay: 3s; } .p3 { animation-delay: 6s; } .p4 { animation-delay: 9s; }
+    .caret { animation: blink 1s steps(1) infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-10px) rotate(-1deg); } }
+    @keyframes sweep { 0%, 35% { transform: translateX(-260px); } 75%, 100% { transform: translateX(460px); } }
+    @keyframes rise  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes phrase { 0% { opacity: 0; transform: translateY(8px); } 4%, 21% { opacity: 1; transform: translateY(0); } 25%, 100% { opacity: 0; transform: translateY(-8px); } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .float, .sweep, .rise, .caret { animation: none; }
+      .phrase { animation: none; } .phrase.p1 { opacity: 1; }
+    }
+  </style>
+
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="340" fill="url(#bg)"/>
+    <circle cx="250" cy="170" r="300" fill="url(#glow)"/>
+    <circle cx="1120" cy="40" r="200" fill="url(#glow)" opacity="0.45"/>
+
+    <!-- Card -->
+    <g class="float">
+      <rect x="90" y="85" width="320" height="202" rx="22" fill="#000000" opacity="0.35"/>
+      <rect x="90" y="69" width="320" height="202" rx="22" fill="url(#card)"/>
+      <g clip-path="url(#cardClip)">
+        <rect class="sweep" x="90" y="40" width="110" height="260" fill="url(#shine)" transform="skewX(-20)"/>
+      </g>
+      <rect x="90.5" y="69.5" width="319" height="201" rx="21.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.22"/>
+
+      <!-- Chip -->
+      <rect x="114" y="93" width="46" height="34" rx="7" fill="#FFFFFF" fill-opacity="0.26" stroke="#FFFFFF" stroke-opacity="0.4"/>
+      <path d="M114 110h46M130 93v34M144 93v34" stroke="#FFFFFF" stroke-opacity="0.35" fill="none"/>
+
+      <!-- Network mark -->
+      <circle cx="358" cy="110" r="14" fill="#FFFFFF" fill-opacity="0.85"/>
+      <circle cx="376" cy="110" r="14" fill="#FFFFFF" fill-opacity="0.45"/>
+
+      <text x="114" y="184" font-size="21" font-weight="700" fill="#FFFFFF" letter-spacing="2.4">•••• •••• •••• 4242</text>
+      <text x="114" y="226" font-size="9" font-weight="600" fill="#FFFFFF" fill-opacity="0.7" letter-spacing="1.4">CARDHOLDER</text>
+      <text x="114" y="246" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="1">CARD HOLDER</text>
+      <text x="386" y="226" font-size="9" font-weight="600" fill="#FFFFFF" fill-opacity="0.7" letter-spacing="1.4" text-anchor="end">EXPIRES</text>
+      <text x="386" y="246" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="1" text-anchor="end">12/28</text>
+    </g>
+
+    <!-- Title block -->
+    <text class="rise" x="500" y="128" font-size="72" font-weight="800" fill="url(#title)" letter-spacing="1">WalletFX</text>
+    <text class="rise d1" x="503" y="170" font-size="22" font-weight="500" fill="#FFFFFF" fill-opacity="0.72">An animated credit card experience, built with Flutter</text>
+
+    <g class="rise d2" font-size="20" font-weight="600" fill="#9DB4FF">
+      <rect class="caret" x="503" y="194" width="3" height="24" rx="1.5" fill="#9DB4FF"/>
+      <text class="phrase p1" x="516" y="213">Tap to flip the card in 3D.</text>
+      <text class="phrase p2" x="516" y="213">Drag to tilt it with your finger.</text>
+      <text class="phrase p3" x="516" y="213">Peek the digits, one flip at a time.</text>
+      <text class="phrase p4" x="516" y="213">Save the looks you love.</text>
+    </g>
+
+    <!-- Theme swatches, selection ring follows the card -->
+    <g class="rise d3">
+      <circle cx="523" cy="268" r="18" fill="url(#t1)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+      <circle cx="577" cy="268" r="18" fill="url(#t2)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+      <circle cx="631" cy="268" r="18" fill="url(#t3)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+      <circle cx="685" cy="268" r="18" fill="url(#t4)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+      <circle cx="739" cy="268" r="18" fill="url(#t5)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+      <circle cx="523" cy="268" r="23" fill="none" stroke="#FFFFFF" stroke-width="2">
+        <animate attributeName="cx" dur="15s" repeatCount="indefinite" calcMode="spline"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          keySplines="0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1"
+          values="523;523;577;577;631;631;685;685;739;739;523"/>
+      </circle>
+      <circle cx="523" cy="268" r="4.5" fill="#FFFFFF" fill-opacity="0.9">
+        <animate attributeName="cx" dur="15s" repeatCount="indefinite" calcMode="spline"
+          keyTimes="0;0.16;0.2;0.36;0.4;0.56;0.6;0.76;0.8;0.96;1"
+          keySplines="0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1;0 0 1 1;0.4 0 0.2 1"
+          values="523;523;577;577;631;631;685;685;739;739;523"/>
+      </circle>
+    </g>
+  </g>
+</svg>
