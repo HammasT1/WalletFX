@@ -203,7 +203,7 @@ docs/                                # README artwork
 
 ## 🚀 Getting Started
 
-**Prerequisites:** the [Flutter SDK](https://docs.flutter.dev/get-started/install) with Dart 3.9.2 or newer (Flutter 3.35+).
+**Prerequisites:** the [Flutter SDK](https://docs.flutter.dev/get-started/install), version 3.35.4 (Dart 3.9.2). This is the version the project and its release workflow are built with.
 
 ```bash
 # 1. Clone the repository

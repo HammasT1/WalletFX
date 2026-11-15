@@ -35,6 +35,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
+          # Pinned to the Flutter release this project was created with. Newer
+          # releases need a newer Gradle / Android Gradle Plugin than the one
+          # in android/, so bump this together with those files.
+          flutter-version: "3.35.4"
           channel: stable
           cache: true
 
