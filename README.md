@@ -10,13 +10,20 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/HammasT1/WalletFX/releases/latest"><img src="https://img.shields.io/github/v/release/HammasT1/WalletFX?style=for-the-badge&label=Download%20APK&logo=android&logoColor=white&color=3DDC84" alt="Download the latest APK" /></a>
+  <a href="https://github.com/HammasT1/WalletFX/actions/workflows/release-apk.yml"><img src="https://img.shields.io/github/actions/workflow/status/HammasT1/WalletFX/release-apk.yml?style=for-the-badge&label=APK%20build&logo=githubactions&logoColor=white" alt="APK build status" /></a>
+</p>
+
+<p align="center">
   <a href="#-demo">Demo</a> ·
+  <a href="#-download">Download</a> ·
   <a href="#-features">Features</a> ·
   <a href="#-gestures">Gestures</a> ·
   <a href="#-animation-breakdown">Animations</a> ·
   <a href="#-theme-library">Themes</a> ·
   <a href="#-project-structure">Structure</a> ·
-  <a href="#-getting-started">Getting Started</a>
+  <a href="#-getting-started">Getting Started</a> ·
+  <a href="#-releasing-a-new-version">Releasing</a>
 </p>
 
 ---
@@ -49,6 +56,18 @@ It is a UI and motion showcase. The card details are placeholder data, and nothi
     <td><img src="App%20Save%20Feature.png" alt="Saved looks row" width="200" /></td>
   </tr>
 </table>
+
+---
+
+## 📲 Download
+
+Want to try the app without building it? Grab the ready-made Android APK:
+
+1. Open the [latest release](https://github.com/HammasT1/WalletFX/releases/latest).
+2. Under **Assets**, download `WalletFX-vX.Y.Z.apk`.
+3. Open the file on your Android phone and allow installs from that source when asked.
+
+Every APK there is built automatically by [GitHub Actions](.github/workflows/release-apk.yml) from the tagged source code.
 
 ---
 
@@ -177,6 +196,7 @@ lib/
 
 assets/                              # Network logos (SVG), app icon, demo GIF
 docs/                                # README artwork
+.github/workflows/release-apk.yml    # Builds and publishes the APK on every version tag
 ```
 
 ---
@@ -211,6 +231,34 @@ Build a release APK:
 ```bash
 flutter build apk --release
 ```
+
+---
+
+## 📦 Releasing a New Version
+
+Pushing a version tag is all it takes. The [Release APK](.github/workflows/release-apk.yml) workflow builds the APK, creates a GitHub Release for the tag, and attaches `WalletFX-vX.Y.Z.apk` to it.
+
+```bash
+# 1. Make sure everything you want in the release is committed and pushed
+git push origin main
+
+# 2. Create an annotated tag (the version after "v" becomes the app version)
+git tag -a v1.0.0 -m "WalletFX v1.0.0"
+
+# 3. Push the tag to GitHub, which starts the build
+git push origin v1.0.0
+```
+
+A few minutes later the APK appears on the [Releases](https://github.com/HammasT1/WalletFX/releases) page. You can follow the build in the [Actions](https://github.com/HammasT1/WalletFX/actions) tab.
+
+Tags must start with `v` (`v1.0.0`, `v1.1.0`, `v2.0.0-beta.1`) to trigger the workflow. To redo a release, delete the tag and push it again:
+
+```bash
+git tag -d v1.0.0                  # delete the tag locally
+git push origin --delete v1.0.0    # delete the tag on GitHub
+```
+
+The workflow can also be started by hand from the Actions tab with **Run workflow**. A manual run does not create a release; the APK is saved as a downloadable artifact on that run.
 
 ---
 
