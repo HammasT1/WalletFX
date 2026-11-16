@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/card_gradient_theme.dart';
 import 'widgets/credit_card_widget.dart';
@@ -18,7 +19,7 @@ class CardFlowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CardFlow',
+      title: 'WalletFX',
       theme: ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
@@ -42,7 +43,12 @@ class CardFlowHomePage extends StatefulWidget {
 }
 
 class _CardFlowHomePageState extends State<CardFlowHomePage> {
+  static const _selectedThemeKey = 'selected_theme';
+  static const _savedThemesKey = 'saved_themes';
+
   late CardGradientTheme _selectedTheme;
+  // Set once the user changes anything, so a slow restore never overwrites it.
+  bool _hasUserChanges = false;
   final List<CardGradientTheme> _savedThemes = [];
   final GlobalKey<AnimatedListState> _savedThemesListKey =
       GlobalKey<AnimatedListState>();
@@ -51,6 +57,62 @@ class _CardFlowHomePageState extends State<CardFlowHomePage> {
   void initState() {
     super.initState();
     _selectedTheme = cardGradientThemes.first;
+    _restoreState();
+  }
+
+  CardGradientTheme? _themeByName(String? name) {
+    for (final theme in cardGradientThemes) {
+      if (theme.name == name) {
+        return theme;
+      }
+    }
+    return null;
+  }
+
+  // Brings back the theme and saved looks from the previous launch. Themes are
+  // stored by name; names that no longer exist are skipped.
+  Future<void> _restoreState() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted || _hasUserChanges) {
+      return;
+    }
+
+    final selected = _themeByName(prefs.getString(_selectedThemeKey));
+    final saved = <CardGradientTheme>[];
+    for (final name in prefs.getStringList(_savedThemesKey) ?? const []) {
+      final theme = _themeByName(name);
+      if (theme != null && !saved.contains(theme)) {
+        saved.add(theme);
+      }
+    }
+
+    if (selected == null && saved.isEmpty) {
+      return;
+    }
+    setState(() {
+      _selectedTheme = selected ?? _selectedTheme;
+      _savedThemes.addAll(saved);
+    });
+  }
+
+  Future<void> _persistState() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_selectedThemeKey, _selectedTheme.name);
+    await prefs.setStringList(_savedThemesKey, [
+      for (final theme in _savedThemes) theme.name,
+    ]);
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(milliseconds: 1600),
+        ),
+      );
   }
 
   Future<void> _selectTheme(CardGradientTheme theme) async {
@@ -59,26 +121,45 @@ class _CardFlowHomePageState extends State<CardFlowHomePage> {
     }
 
     // Light haptic feedback makes the swatch selection feel tactile.
+    _hasUserChanges = true;
     await HapticFeedback.lightImpact();
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _selectedTheme = theme;
     });
+    await _persistState();
   }
 
   Future<void> _saveCurrentLook() async {
+    _hasUserChanges = true;
     await HapticFeedback.selectionClick();
+    if (!mounted) {
+      return;
+    }
+
+    if (_savedThemes.contains(_selectedTheme)) {
+      _showMessage('${_selectedTheme.name} is already saved.');
+      return;
+    }
 
     final insertIndex = _savedThemes.length;
     setState(() {
       _savedThemes.add(_selectedTheme);
     });
     _savedThemesListKey.currentState?.insertItem(insertIndex);
+    await _persistState();
   }
 
   Future<void> _removeSavedTheme(int index) async {
     final removedTheme = _savedThemes[index];
 
+    _hasUserChanges = true;
     await HapticFeedback.lightImpact();
+    if (!mounted || index >= _savedThemes.length) {
+      return;
+    }
     setState(() {
       _savedThemes.removeAt(index);
     });
@@ -94,6 +175,7 @@ class _CardFlowHomePageState extends State<CardFlowHomePage> {
       ),
       duration: const Duration(milliseconds: 280),
     );
+    await _persistState();
   }
 
   @override

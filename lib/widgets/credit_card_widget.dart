@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/card_gradient_theme.dart';
@@ -126,6 +127,22 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     }
   }
 
+  // Long-pressing the card copies the full number, grouped in fours.
+  Future<void> _copyCardNumber() async {
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    await HapticFeedback.mediumImpact();
+    await Clipboard.setData(ClipboardData(text: formatCardNumber(_cardNumber)));
+    messenger
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(
+          content: Text('Card number copied'),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(milliseconds: 1600),
+        ),
+      );
+  }
+
   void _toggleCvv() {
     setState(() {
       _revealCvv = !_revealCvv;
@@ -154,6 +171,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               scale: scale,
               child: GestureDetector(
                 onTap: _toggleFlip,
+                onLongPress: _copyCardNumber,
                 onPanStart: (details) {
                   final box = context.findRenderObject() as RenderBox?;
                   if (box != null) {

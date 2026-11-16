@@ -39,14 +39,14 @@
 
 **WalletFX** is a Flutter app built around one thing: a credit card that feels good to touch. The card flips in 3D, tilts under your finger, catches a sweep of light, and reveals its digits one flip at a time, all on a dark interface whose ambient glow follows the theme you pick.
 
-It is a UI and motion showcase. The card details are placeholder data, and nothing is stored or sent anywhere.
+It is a UI and motion showcase. The card details are placeholder data. The only thing the app stores is your theme and saved looks, kept on the device; nothing is sent anywhere.
 
 **At a glance**
 
 - 🔄 &nbsp;A 3D flip with real perspective and a touch-driven tilt
 - 🎨 &nbsp;Five gradient themes with a matching background glow
-- 🔖 &nbsp;A row of saved looks that animates in and out
-- 🧩 &nbsp;One package dependency: `flutter_svg`
+- 🔖 &nbsp;A row of saved looks that animates in and out, and is still there next launch
+- 🧩 &nbsp;Two package dependencies: `flutter_svg` and `shared_preferences`
 - 📲 &nbsp;A ready-made APK on the [Releases](https://github.com/HammasT1/WalletFX/releases/latest) page
 
 <br clear="right" />
@@ -119,7 +119,7 @@ Want to try the app without building it? Grab the ready-made Android APK:
   <tr>
     <td width="50%" valign="top">
       <h3>🔖 &nbsp;Save this look</h3>
-      Bookmark themes into an animated row, tap one to apply it, long-press to remove it.
+      Bookmark themes into an animated row, tap one to apply it, long-press to remove it. Each theme is saved once.
     </td>
     <td width="50%" valign="top">
       <h3>🌌 &nbsp;Ambient glow</h3>
@@ -129,11 +129,21 @@ Want to try the app without building it? Grab the ready-made Android APK:
   <tr>
     <td width="50%" valign="top">
       <h3>📳 &nbsp;Haptic feedback</h3>
-      Light haptics on theme selection, saving, and removal.
+      Light haptics on theme selection, saving, removal, and copying.
     </td>
     <td width="50%" valign="top">
       <h3>📐 &nbsp;Responsive layout</h3>
       The card keeps the standard 1.586 aspect ratio and caps its width on large screens.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>💾 &nbsp;Remembers your looks</h3>
+      The selected theme and the saved row are restored the next time the app opens.
+    </td>
+    <td width="50%" valign="top">
+      <h3>📋 &nbsp;Copy card number</h3>
+      Long-press the card to copy the full number to the clipboard, with a short confirmation.
     </td>
   </tr>
 </table>
@@ -144,6 +154,7 @@ Want to try the app without building it? Grab the ready-made Android APK:
 | :--- | :--- | :--- |
 | **Tap** | Card | Flip between front and back |
 | **Drag** | Card | Tilt in 3D, following your finger |
+| **Long-press** | Card | Copy the card number to the clipboard |
 | **Tap** | Eye icon (front) | Peek or hide the full card number |
 | **Tap** | CVV box (back) | Show or hide the CVV |
 | **Tap** | Theme swatch | Switch the card gradient and background glow |
@@ -220,6 +231,7 @@ CardGradientTheme(
 | **State** | `StatefulWidget` + `setState`, no external state library |
 | **Animation** | Explicit `AnimationController`s, `Matrix4` transforms, implicit animated widgets, `AnimatedList` |
 | **Drawing** | `CustomPainter` for the card surface and chip |
+| **Persistence** | [`shared_preferences`](https://pub.dev/packages/shared_preferences) for the selected theme and saved looks |
 | **Assets** | SVG network logos rendered with [`flutter_svg`](https://pub.dev/packages/flutter_svg) |
 
 ## 📂 Project Structure
@@ -264,6 +276,12 @@ Run on a specific platform:
 ```bash
 flutter run -d chrome     # Web
 flutter run -d windows    # Windows desktop
+```
+
+Run the widget tests:
+
+```bash
+flutter test
 ```
 
 Build a release APK:
