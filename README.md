@@ -3,30 +3,37 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
-  <img src="https://img.shields.io/badge/Dart-3.9+-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart 3.9+" />
-  <img src="https://img.shields.io/badge/Material-3-7C4DFF?style=for-the-badge&logo=materialdesign&logoColor=white" alt="Material 3" />
-  <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20Web%20%7C%20Windows-1C1C1E?style=for-the-badge" alt="Platforms: Android, Web, Windows" />
-</p>
-
-<p align="center">
   <a href="https://github.com/HammasT1/WalletFX/releases/latest"><img src="https://img.shields.io/github/v/release/HammasT1/WalletFX?style=for-the-badge&label=Download%20APK&logo=android&logoColor=white&color=3DDC84" alt="Download the latest APK" /></a>
   <a href="https://github.com/HammasT1/WalletFX/actions/workflows/release-apk.yml"><img src="https://img.shields.io/github/actions/workflow/status/HammasT1/WalletFX/release-apk.yml?style=for-the-badge&label=APK%20build&logo=githubactions&logoColor=white" alt="APK build status" /></a>
+  <a href="https://github.com/HammasT1/WalletFX/stargazers"><img src="https://img.shields.io/github/stars/HammasT1/WalletFX?style=for-the-badge&logo=github&logoColor=white&color=F09819" alt="GitHub stars" /></a>
 </p>
 
 <p align="center">
-  <a href="#-demo">Demo</a> ·
-  <a href="#-download">Download</a> ·
-  <a href="#-features">Features</a> ·
-  <a href="#-gestures">Gestures</a> ·
-  <a href="#-animation-breakdown">Animations</a> ·
-  <a href="#-theme-library">Themes</a> ·
-  <a href="#-project-structure">Structure</a> ·
-  <a href="#-getting-started">Getting Started</a> ·
-  <a href="#-releasing-a-new-version">Releasing</a>
+  <img src="https://img.shields.io/badge/Flutter-3.35-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter 3.35" />
+  <img src="https://img.shields.io/badge/Dart-3.9-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart 3.9" />
+  <img src="https://img.shields.io/badge/Material-3-7C4DFF?style=flat-square&logo=materialdesign&logoColor=white" alt="Material 3" />
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android" />
+  <img src="https://img.shields.io/badge/Web-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Web" />
+  <img src="https://img.shields.io/badge/Windows-0078D4?style=flat-square" alt="Windows" />
 </p>
 
----
+<p align="center">
+  <b>
+    <a href="#-demo">Demo</a> &nbsp;·&nbsp;
+    <a href="#-download">Download</a> &nbsp;·&nbsp;
+    <a href="#-features">Features</a> &nbsp;·&nbsp;
+    <a href="#-gestures">Gestures</a> &nbsp;·&nbsp;
+    <a href="#-animation-breakdown">Animations</a> &nbsp;·&nbsp;
+    <a href="#-theme-library">Themes</a> &nbsp;·&nbsp;
+    <a href="#-getting-started">Getting Started</a>
+  </b>
+</p>
+
+<p align="center">
+  <img src="docs/divider.svg" alt="" width="100%" />
+</p>
+
+<img src="docs/demo.gif" alt="WalletFX in motion: the card flips, reveals its CVV and changes theme" width="210" align="right" />
 
 ## 💡 About
 
@@ -34,32 +41,38 @@
 
 It is a UI and motion showcase. The card details are placeholder data, and nothing is stored or sent anywhere.
 
----
+**At a glance**
+
+- 🔄 &nbsp;A 3D flip with real perspective and a touch-driven tilt
+- 🎨 &nbsp;Five gradient themes with a matching background glow
+- 🔖 &nbsp;A row of saved looks that animates in and out
+- 🧩 &nbsp;One package dependency: `flutter_svg`
+- 📲 &nbsp;A ready-made APK on the [Releases](https://github.com/HammasT1/WalletFX/releases/latest) page
+
+<br clear="right" />
 
 ## 🎬 Demo
 
-<p align="center">
-  <img src="assets/WalletFX_GIF.gif" alt="WalletFX in motion" width="300" />
-</p>
-
 <table align="center">
   <tr>
-    <th>Front</th>
-    <th>Themed</th>
-    <th>Back</th>
-    <th>Saved looks</th>
+    <td align="center"><img src="docs/screenshots/front.png" alt="Card front with the full number revealed" width="205" /></td>
+    <td align="center"><img src="docs/screenshots/back.png" alt="Card back with the CVV revealed" width="205" /></td>
+    <td align="center"><img src="docs/screenshots/themed.png" alt="Ocean Blue theme with the number masked" width="205" /></td>
+    <td align="center"><img src="docs/screenshots/saved-looks.png" alt="Two saved looks under the theme swatches" width="205" /></td>
   </tr>
   <tr>
-    <td><img src="App%20Front.png" alt="Card front" width="200" /></td>
-    <td><img src="App%20Front%202.png" alt="Card front with another theme" width="200" /></td>
-    <td><img src="App%20Back.png" alt="Card back" width="200" /></td>
-    <td><img src="App%20Save%20Feature.png" alt="Saved looks row" width="200" /></td>
+    <td align="center"><b>Front</b><br /><sub>Number revealed</sub></td>
+    <td align="center"><b>Back</b><br /><sub>CVV revealed</sub></td>
+    <td align="center"><b>Themed</b><br /><sub>Ocean Blue, number masked</sub></td>
+    <td align="center"><b>Saved looks</b><br /><sub>Tap to apply, long-press to remove</sub></td>
   </tr>
 </table>
 
----
-
 ## 📲 Download
+
+<p align="center">
+  <a href="https://github.com/HammasT1/WalletFX/releases/latest"><img src="https://img.shields.io/badge/Get%20the%20latest%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Get the latest APK" height="44" /></a>
+</p>
 
 Want to try the app without building it? Grab the ready-made Android APK:
 
@@ -67,26 +80,63 @@ Want to try the app without building it? Grab the ready-made Android APK:
 2. Under **Assets**, download `WalletFX-vX.Y.Z.apk`.
 3. Open the file on your Android phone and allow installs from that source when asked.
 
-Every APK there is built automatically by [GitHub Actions](.github/workflows/release-apk.yml) from the tagged source code.
-
----
+> [!NOTE]
+> Every APK there is built automatically by [GitHub Actions](.github/workflows/release-apk.yml) from the tagged source code.
 
 ## ✨ Features
 
-| | Feature | What it does |
-| :---: | :--- | :--- |
-| 🔄 | **3D card flip** | Tap the card to rotate it around the Y axis with real perspective and a slight overshoot. |
-| 🖐️ | **Touch tilt** | Drag across the card and it leans toward your finger, then settles back when you let go. |
-| ✨ | **Shine sweep** | A band of light crosses the card on entry and every time the theme changes. |
-| 👁️ | **Number peek** | The eye button reveals the masked digits with a staggered flip; the last four stay visible. |
-| 🔐 | **CVV reveal** | Tap the CVV box on the back to show or hide the code. |
-| 🎨 | **Theme library** | Five gradient themes, each paired with a card network logo. |
-| 🔖 | **Save this look** | Bookmark themes into an animated row, tap one to apply it, long-press to remove it. |
-| 🌌 | **Ambient glow** | The blurred background glow cross-fades to match the selected theme. |
-| 📳 | **Haptic feedback** | Light haptics on theme selection, saving, and removal. |
-| 📐 | **Responsive layout** | The card keeps the standard 1.586 aspect ratio and caps its width on large screens. |
-
----
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔄 &nbsp;3D card flip</h3>
+      Tap the card to rotate it around the Y axis with real perspective and a slight overshoot.
+    </td>
+    <td width="50%" valign="top">
+      <h3>🖐️ &nbsp;Touch tilt</h3>
+      Drag across the card and it leans toward your finger, then settles back when you let go.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>✨ &nbsp;Shine sweep</h3>
+      A band of light crosses the card on entry and every time the theme changes.
+    </td>
+    <td width="50%" valign="top">
+      <h3>👁️ &nbsp;Number peek</h3>
+      The eye button reveals the masked digits with a staggered flip; the last four stay visible.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔐 &nbsp;CVV reveal</h3>
+      Tap the CVV box on the back to show or hide the code.
+    </td>
+    <td width="50%" valign="top">
+      <h3>🎨 &nbsp;Theme library</h3>
+      Five gradient themes, each paired with a card network logo.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔖 &nbsp;Save this look</h3>
+      Bookmark themes into an animated row, tap one to apply it, long-press to remove it.
+    </td>
+    <td width="50%" valign="top">
+      <h3>🌌 &nbsp;Ambient glow</h3>
+      The blurred background glow cross-fades to match the selected theme.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>📳 &nbsp;Haptic feedback</h3>
+      Light haptics on theme selection, saving, and removal.
+    </td>
+    <td width="50%" valign="top">
+      <h3>📐 &nbsp;Responsive layout</h3>
+      The card keeps the standard 1.586 aspect ratio and caps its width on large screens.
+    </td>
+  </tr>
+</table>
 
 ## 👆 Gestures
 
@@ -100,8 +150,6 @@ Every APK there is built automatically by [GitHub Actions](.github/workflows/rel
 | **Tap** | *Save this look* | Add the current theme to your saved row |
 | **Tap** | Saved thumbnail | Apply that look again |
 | **Long-press** | Saved thumbnail | Remove it from the row |
-
----
 
 ## 🎥 Animation Breakdown
 
@@ -139,8 +187,6 @@ final backMatrix  = baseMatrix.clone()..rotateY(flipValue + math.pi);
 
 </details>
 
----
-
 ## 🎨 Theme Library
 
 <p align="center">
@@ -165,8 +211,6 @@ CardGradientTheme(
 ),
 ```
 
----
-
 ## 🧱 Tech Stack
 
 | Layer | Choice |
@@ -177,8 +221,6 @@ CardGradientTheme(
 | **Animation** | Explicit `AnimationController`s, `Matrix4` transforms, implicit animated widgets, `AnimatedList` |
 | **Drawing** | `CustomPainter` for the card surface and chip |
 | **Assets** | SVG network logos rendered with [`flutter_svg`](https://pub.dev/packages/flutter_svg) |
-
----
 
 ## 📂 Project Structure
 
@@ -194,12 +236,10 @@ lib/
     ├── card_painter.dart            # CustomPainter for the card surface
     └── gradient_swatch_picker.dart  # Animated theme swatches
 
-assets/                              # Network logos (SVG), app icon, demo GIF
-docs/                                # README artwork
+assets/                              # Network logos (SVG), app icon
+docs/                                # README artwork, screenshots, demo GIF
 .github/workflows/release-apk.yml    # Builds and publishes the APK on every version tag
 ```
-
----
 
 ## 🚀 Getting Started
 
@@ -232,8 +272,6 @@ Build a release APK:
 flutter build apk --release
 ```
 
----
-
 ## 📦 Releasing a New Version
 
 Pushing a version tag is all it takes. The [Release APK](.github/workflows/release-apk.yml) workflow builds the APK, creates a GitHub Release for the tag, and attaches `WalletFX-vX.Y.Z.apk` to it.
@@ -251,19 +289,42 @@ git push origin v1.0.0
 
 A few minutes later the APK appears on the [Releases](https://github.com/HammasT1/WalletFX/releases) page. You can follow the build in the [Actions](https://github.com/HammasT1/WalletFX/actions) tab.
 
-Tags must start with `v` (`v1.0.0`, `v1.1.0`, `v2.0.0-beta.1`) to trigger the workflow. To redo a release, delete the tag and push it again:
+> [!IMPORTANT]
+> Tags must start with `v` (`v1.0.0`, `v1.1.0`, `v2.0.0-beta.1`) to trigger the workflow.
+
+<details>
+<summary><b>Redoing a release</b></summary>
+<br />
+
+Delete the tag, then create and push it again:
 
 ```bash
 git tag -d v1.0.0                  # delete the tag locally
 git push origin --delete v1.0.0    # delete the tag on GitHub
 ```
 
+</details>
+
+<details>
+<summary><b>Building without releasing</b></summary>
+<br />
+
 The workflow can also be started by hand from the Actions tab with **Run workflow**. A manual run does not create a release; the APK is saved as a downloadable artifact on that run.
 
----
+</details>
 
-## 👤 Author
+<p align="center">
+  <img src="docs/divider.svg" alt="" width="100%" />
+</p>
 
-**Muhammad Hammas Rasheed** — [@HammasT1](https://github.com/HammasT1)
+<p align="center">
+  Designed and built by <a href="https://github.com/HammasT1"><b>Muhammad Hammas Rasheed</b></a>
+</p>
 
-If WalletFX was useful or fun to play with, a ⭐ on the repo is appreciated.
+<p align="center">
+  If WalletFX was useful or fun to play with, a ⭐ on the repo is appreciated.
+</p>
+
+<p align="center">
+  <a href="#top"><sub>Back to top ↑</sub></a>
+</p>
