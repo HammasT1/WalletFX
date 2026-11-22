@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../models/card_controls.dart';
 import '../models/card_gradient_theme.dart';
 import '../state/wallet_controller.dart';
+import '../utils/amount_formatter.dart';
 import '../widgets/ambient_glow.dart';
 import '../widgets/credit_card_widget.dart';
 import '../widgets/gradient_swatch_picker.dart';
@@ -91,6 +93,17 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
       ),
       duration: const Duration(milliseconds: 280),
     );
+  }
+
+  Future<void> _updateControls(
+    CardControls controls, {
+    bool persist = true,
+  }) async {
+    await HapticFeedback.selectionClick();
+    if (!mounted) {
+      return;
+    }
+    _controller.updateControls(widget.cardId, controls, persist: persist);
   }
 
   @override
@@ -215,6 +228,11 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                                       },
                                     ),
                             ),
+                            const SizedBox(height: 20),
+                            _CardControlsPanel(
+                              controls: card.controls,
+                              onChanged: _updateControls,
+                            ),
                           ],
                         ),
                       ),
@@ -226,6 +244,129 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class _CardControlsPanel extends StatelessWidget {
+  const _CardControlsPanel({required this.controls, required this.onChanged});
+
+  final CardControls controls;
+  final Future<void> Function(CardControls controls, {bool persist}) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Card Controls',
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              key: const ValueKey('freeze_card'),
+              contentPadding: EdgeInsets.zero,
+              secondary: Icon(
+                controls.frozen ? Icons.ac_unit_rounded : Icons.shield_outlined,
+                color: controls.frozen ? Colors.cyanAccent : Colors.white70,
+              ),
+              title: const Text('Freeze card'),
+              subtitle: Text(
+                controls.frozen
+                    ? 'Payments are currently blocked'
+                    : 'Temporarily block all payments',
+                style: textTheme.bodySmall?.copyWith(color: Colors.white54),
+              ),
+              value: controls.frozen,
+              onChanged: (value) => onChanged(controls.copyWith(frozen: value)),
+            ),
+          ),
+          const Divider(color: Colors.white12),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Spending limit', style: textTheme.titleSmall),
+                ),
+                Text(
+                  formatAmount(controls.spendingLimit),
+                  style: textTheme.titleSmall?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Slider(
+            key: const ValueKey('spending_limit'),
+            value: controls.spendingLimit,
+            min: CardControls.minLimit,
+            max: CardControls.maxLimit,
+            divisions:
+                ((CardControls.maxLimit - CardControls.minLimit) /
+                        CardControls.limitStep)
+                    .round(),
+            label: formatAmount(controls.spendingLimit),
+            onChanged: (value) => onChanged(
+              controls.copyWith(spendingLimit: value),
+              persist: false,
+            ),
+            onChangeEnd: (value) =>
+                onChanged(controls.copyWith(spendingLimit: value)),
+          ),
+          const Divider(color: Colors.white12),
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              key: const ValueKey('online_payments'),
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.language_rounded),
+              title: const Text('Online payments'),
+              value: controls.onlinePayments,
+              onChanged: (value) =>
+                  onChanged(controls.copyWith(onlinePayments: value)),
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              key: const ValueKey('contactless_payments'),
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.contactless_rounded),
+              title: const Text('Contactless payments'),
+              value: controls.contactless,
+              onChanged: (value) =>
+                  onChanged(controls.copyWith(contactless: value)),
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              key: const ValueKey('atm_withdrawals'),
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.local_atm_rounded),
+              title: const Text('ATM withdrawals'),
+              value: controls.atmWithdrawals,
+              onChanged: (value) =>
+                  onChanged(controls.copyWith(atmWithdrawals: value)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

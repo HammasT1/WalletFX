@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -174,5 +176,50 @@ void main() {
 
     final prefs = await SharedPreferences.getInstance();
     expect(prefs.getStringList('saved_themes'), ['Ocean Blue']);
+  });
+
+  testWidgets('card controls can be changed and restored', (tester) async {
+    usePhoneSurface(tester);
+    SharedPreferences.setMockInitialValues({});
+
+    await tester.pumpWidget(const CardFlowApp());
+    await tester.pumpAndSettle();
+
+    await openCard(tester, 'travel');
+    await tester.ensureVisible(find.byKey(const ValueKey('freeze_card')));
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const ValueKey('freeze_card')),
+        matching: find.byType(Switch),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byKey(const ValueKey('online_payments')));
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const ValueKey('online_payments')),
+        matching: find.byType(Switch),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(
+      find.byKey(const ValueKey('contactless_payments')),
+    );
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const ValueKey('contactless_payments')),
+        matching: find.byType(Switch),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final prefs = await SharedPreferences.getInstance();
+    final stored = jsonDecode(prefs.getString('card_controls')!) as Map;
+    final travelControls = stored['travel'] as Map;
+    expect(travelControls['frozen'], isTrue);
+    expect(travelControls['onlinePayments'], isFalse);
+    expect(travelControls['contactless'], isFalse);
   });
 }
