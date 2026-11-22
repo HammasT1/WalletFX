@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/card_controls.dart';
 import '../models/card_gradient_theme.dart';
 import '../models/wallet_card.dart';
 
@@ -12,6 +15,8 @@ class WalletController extends ChangeNotifier {
   // Each entry is "<card id>|<theme name>".
   static const cardThemesKey = 'card_themes';
   static const savedThemesKey = 'saved_themes';
+  // A JSON object of card id to that card's controls.
+  static const cardControlsKey = 'card_controls';
   // Written by versions with a single card; read once to carry it over.
   static const legacySelectedThemeKey = 'selected_theme';
 
@@ -60,6 +65,10 @@ class WalletController extends ChangeNotifier {
       }
     }
 
+    if (_restoreControls(prefs.getString(cardControlsKey))) {
+      changed = true;
+    }
+
     for (final name in prefs.getStringList(savedThemesKey) ?? const []) {
       final theme = cardGradientThemeByName(name);
       if (theme != null && !_savedThemes.contains(theme)) {
@@ -70,6 +79,56 @@ class WalletController extends ChangeNotifier {
 
     if (changed) {
       notifyListeners();
+    }
+  }
+
+  // Returns true when any card's controls were restored.
+  bool _restoreControls(String? stored) {
+    if (stored == null) {
+      return false;
+    }
+    final Object? decoded;
+    try {
+      decoded = jsonDecode(stored);
+    } on FormatException {
+      return false;
+    }
+    if (decoded is! Map<String, dynamic>) {
+      return false;
+    }
+
+    var changed = false;
+    for (var index = 0; index < _cards.length; index++) {
+      final entry = decoded[_cards[index].id];
+      if (entry is Map<String, dynamic>) {
+        _cards[index] = _cards[index].copyWith(
+          controls: CardControls.fromJson(
+            entry,
+            fallback: _cards[index].controls,
+          ),
+        );
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  /// Replaces a card's controls. Pass `persist: false` for rapid updates,
+  /// such as a slider mid-drag, and persist once the gesture ends.
+  void updateControls(
+    String cardId,
+    CardControls controls, {
+    bool persist = true,
+  }) {
+    final index = _cards.indexWhere((card) => card.id == cardId);
+    if (index == -1) {
+      return;
+    }
+    _hasUserChanges = true;
+    _cards[index] = _cards[index].copyWith(controls: controls);
+    notifyListeners();
+    if (persist) {
+      _persist();
     }
   }
 
@@ -114,6 +173,12 @@ class WalletController extends ChangeNotifier {
     await prefs.setStringList(cardThemesKey, [
       for (final card in _cards) '${card.id}|${card.theme.name}',
     ]);
+    await prefs.setString(
+      cardControlsKey,
+      jsonEncode({
+        for (final card in _cards) card.id: card.controls.toJson(),
+      }),
+    );
     await prefs.setStringList(savedThemesKey, [
       for (final theme in _savedThemes) theme.name,
     ]);

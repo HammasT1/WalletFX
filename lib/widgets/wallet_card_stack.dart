@@ -221,7 +221,9 @@ class _StackedCard extends StatelessWidget {
         offset: Offset(0, 48 * (1 - entry)),
         child: Semantics(
           button: true,
-          label: '${card.label} card ending in ${card.lastFour}',
+          label:
+              '${card.label} card ending in ${card.lastFour}'
+              '${card.controls.frozen ? ', frozen' : ''}',
           child: GestureDetector(
             // The face ignores pointers, so the detector claims the area.
             behavior: HitTestBehavior.opaque,
