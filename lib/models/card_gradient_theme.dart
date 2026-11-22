@@ -45,3 +45,13 @@ const List<CardGradientTheme> cardGradientThemes = [
     assetPath: 'assets/visa.svg',
   ),
 ];
+
+/// Finds a built-in theme by its name, or null when no theme has that name.
+CardGradientTheme? cardGradientThemeByName(String? name) {
+  for (final theme in cardGradientThemes) {
+    if (theme.name == name) {
+      return theme;
+    }
+  }
+  return null;
+}

@@ -37,12 +37,13 @@
 
 ## 💡 About
 
-**WalletFX** is a Flutter app built around one thing: a credit card that feels good to touch. The card flips in 3D, tilts under your finger, catches a sweep of light, and reveals its digits one flip at a time, all on a dark interface whose ambient glow follows the theme you pick.
+**WalletFX** is a Flutter app built around one thing: credit cards that feel good to touch. Your cards sit in a stack that fans out under your finger; open one and it flies forward. The card flips in 3D, tilts under your finger, catches a sweep of light, and reveals its digits one flip at a time, all on a dark interface whose ambient glow follows the theme you pick.
 
-It is a UI and motion showcase. The card details are placeholder data. The only thing the app stores is your theme and saved looks, kept on the device; nothing is sent anywhere.
+It is a UI and motion showcase. The card details are placeholder data. The only thing the app stores is each card's theme and your saved looks, kept on the device; nothing is sent anywhere.
 
 **At a glance**
 
+- 🗂️ &nbsp;A wallet of four cards that fans out with a spring and opens with a Hero flight
 - 🔄 &nbsp;A 3D flip with real perspective and a touch-driven tilt
 - 🎨 &nbsp;Five gradient themes with a matching background glow
 - 🔖 &nbsp;A row of saved looks that animates in and out, and is still there next launch
@@ -88,6 +89,16 @@ Want to try the app without building it? Grab the ready-made Android APK:
 <table>
   <tr>
     <td width="50%" valign="top">
+      <h3>🗂️ &nbsp;Wallet stack</h3>
+      Four cards stacked like a real wallet. Drag down to fan them out and up to close them; the stack springs into place.
+    </td>
+    <td width="50%" valign="top">
+      <h3>🦸 &nbsp;Hero card transition</h3>
+      Tap a card and it flies out of the stack into the detail screen, then back again when you return.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
       <h3>🔄 &nbsp;3D card flip</h3>
       Tap the card to rotate it around the Y axis with real perspective and a slight overshoot.
     </td>
@@ -113,7 +124,7 @@ Want to try the app without building it? Grab the ready-made Android APK:
     </td>
     <td width="50%" valign="top">
       <h3>🎨 &nbsp;Theme library</h3>
-      Five gradient themes, each paired with a card network logo.
+      Five gradient themes, each paired with a card network logo. Every card keeps its own.
     </td>
   </tr>
   <tr>
@@ -139,7 +150,7 @@ Want to try the app without building it? Grab the ready-made Android APK:
   <tr>
     <td width="50%" valign="top">
       <h3>💾 &nbsp;Remembers your looks</h3>
-      The selected theme and the saved row are restored the next time the app opens.
+      Each card's theme and the saved row are restored the next time the app opens.
     </td>
     <td width="50%" valign="top">
       <h3>📋 &nbsp;Copy card number</h3>
@@ -152,6 +163,9 @@ Want to try the app without building it? Grab the ready-made Android APK:
 
 | Gesture | Where | Result |
 | :--- | :--- | :--- |
+| **Drag down / up** | Wallet stack | Fan the cards out or close the stack |
+| **Tap** | Card in the stack | Open that card |
+| **Tap** | Back arrow | Return to the wallet |
 | **Tap** | Card | Flip between front and back |
 | **Drag** | Card | Tilt in 3D, following your finger |
 | **Long-press** | Card | Copy the card number to the clipboard |
@@ -168,6 +182,9 @@ Every motion in the app is hand-tuned. The card itself is driven by three explic
 
 | Animation | Duration | Curve | Technique |
 | :--- | :---: | :--- | :--- |
+| Wallet entry (cards rise in turn) | 900 ms | `easeOutCubic`, staggered per card | `AnimationController` + `Transform.translate` |
+| Stack fan out / close | follows the finger, then a spring | `SpringSimulation` | Unbounded `AnimationController` driving the card spacing |
+| Opening a card | 520 ms (460 ms back) | `easeOutCubic` / `easeInCubic` | `Hero` with a `FittedBox` face, plus a fading `PageRouteBuilder` |
 | Card entry (fade, lift, scale) | 900 ms | `easeOutCubic` | `AnimationController` + `Transform` |
 | Shine sweep | 10–85% of entry | `easeInOut` | `Interval` on the entry controller |
 | Card flip | 700 ms | `easeInOutBack` | `Matrix4` with perspective, `rotateY` 0 → π |
@@ -228,25 +245,33 @@ CardGradientTheme(
 | :--- | :--- |
 | **Framework** | Flutter, Material 3, dark theme |
 | **Language** | Dart `^3.9.2` |
-| **State** | `StatefulWidget` + `setState`, no external state library |
+| **State** | A `ChangeNotifier` wallet controller with `ListenableBuilder`, no external state library |
 | **Animation** | Explicit `AnimationController`s, `Matrix4` transforms, implicit animated widgets, `AnimatedList` |
 | **Drawing** | `CustomPainter` for the card surface and chip |
-| **Persistence** | [`shared_preferences`](https://pub.dev/packages/shared_preferences) for the selected theme and saved looks |
+| **Persistence** | [`shared_preferences`](https://pub.dev/packages/shared_preferences) for each card's theme and the saved looks |
 | **Assets** | SVG network logos rendered with [`flutter_svg`](https://pub.dev/packages/flutter_svg) |
 
 ## 📂 Project Structure
 
 ```text
 lib/
-├── main.dart                        # App shell, theme library, saved looks, ambient glow
+├── main.dart                        # App shell and Material theme
 ├── models/
-│   └── card_gradient_theme.dart     # Theme model and the five built-in gradients
+│   ├── card_gradient_theme.dart     # Theme model and the five built-in gradients
+│   └── wallet_card.dart             # Card model and the four sample cards
+├── screens/
+│   ├── wallet_screen.dart           # Home: the wallet stack
+│   └── card_detail_screen.dart      # One card, its theme library and saved looks
+├── state/
+│   └── wallet_controller.dart       # Cards, saved looks and their persistence
 ├── utils/
 │   └── card_number_formatter.dart   # Groups card digits in blocks of four
 └── widgets/
+    ├── ambient_glow.dart            # Themed background glow
     ├── credit_card_widget.dart      # Card faces, flip, tilt, peek, shine, chip
     ├── card_painter.dart            # CustomPainter for the card surface
-    └── gradient_swatch_picker.dart  # Animated theme swatches
+    ├── gradient_swatch_picker.dart  # Animated theme swatches
+    └── wallet_card_stack.dart       # Stacked cards, fan gesture, Hero flight
 
 assets/                              # Network logos (SVG), app icon
 docs/                                # README artwork, screenshots, demo GIF

@@ -1,0 +1,79 @@
+import 'card_gradient_theme.dart';
+
+/// One card in the wallet. The details are placeholder data for the showcase.
+class WalletCard {
+  const WalletCard({
+    required this.id,
+    required this.label,
+    required this.number,
+    required this.cardholder,
+    required this.expiry,
+    required this.cvv,
+    required this.theme,
+  });
+
+  final String id;
+  final String label;
+  final String number;
+  final String cardholder;
+  final String expiry;
+  final String cvv;
+  final CardGradientTheme theme;
+
+  String get lastFour => number.substring(number.length - 4);
+
+  /// Shared by the stacked card and the detail card so they fly as one.
+  String get heroTag => 'wallet-card-$id';
+
+  WalletCard copyWith({CardGradientTheme? theme}) {
+    return WalletCard(
+      id: id,
+      label: label,
+      number: number,
+      cardholder: cardholder,
+      expiry: expiry,
+      cvv: cvv,
+      theme: theme ?? this.theme,
+    );
+  }
+}
+
+/// The cards the wallet starts with, back of the stack first.
+final List<WalletCard> sampleWalletCards = [
+  WalletCard(
+    id: 'personal',
+    label: 'Personal',
+    number: '0562992173814242',
+    cardholder: 'MUHAMMAD HAMMAS',
+    expiry: '12/28',
+    cvv: '742',
+    theme: cardGradientThemes[0],
+  ),
+  WalletCard(
+    id: 'travel',
+    label: 'Travel',
+    number: '3714496353988005',
+    cardholder: 'MUHAMMAD HAMMAS',
+    expiry: '04/29',
+    cvv: '318',
+    theme: cardGradientThemes[2],
+  ),
+  WalletCard(
+    id: 'business',
+    label: 'Business',
+    number: '5425233430108317',
+    cardholder: 'MUHAMMAD HAMMAS',
+    expiry: '09/27',
+    cvv: '506',
+    theme: cardGradientThemes[1],
+  ),
+  WalletCard(
+    id: 'savings',
+    label: 'Savings',
+    number: '6011000990131129',
+    cardholder: 'MUHAMMAD HAMMAS',
+    expiry: '02/30',
+    cvv: '921',
+    theme: cardGradientThemes[3],
+  ),
+];

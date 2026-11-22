@@ -4,14 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../models/card_gradient_theme.dart';
+import '../models/wallet_card.dart';
 import '../utils/card_number_formatter.dart';
 import 'card_painter.dart';
 
 class CreditCardWidget extends StatefulWidget {
-  const CreditCardWidget({super.key, required this.theme});
+  const CreditCardWidget({
+    super.key,
+    required this.card,
+    this.animateEntry = true,
+  });
 
-  final CardGradientTheme theme;
+  final WalletCard card;
+
+  /// Set to false when the card arrives by a Hero flight and is already in
+  /// place, so it does not fade in a second time.
+  final bool animateEntry;
 
   @override
   State<CreditCardWidget> createState() => _CreditCardWidgetState();
@@ -19,11 +27,6 @@ class CreditCardWidget extends StatefulWidget {
 
 class _CreditCardWidgetState extends State<CreditCardWidget>
     with TickerProviderStateMixin {
-  static const _cardNumber = '0562992173814242';
-  static const _cardholder = 'MUHAMMAD HAMMAS';
-  static const _expiry = '12/28';
-  static const _cvv = '742';
-
   late final AnimationController _controller;
   late final AnimationController _flipController;
   late final AnimationController _peekController;
@@ -64,13 +67,17 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         curve: const Interval(0.1, 0.85, curve: Curves.easeInOut),
       ),
     );
-    _controller.forward();
+    if (widget.animateEntry) {
+      _controller.forward();
+    } else {
+      _controller.value = 1;
+    }
   }
 
   @override
   void didUpdateWidget(covariant CreditCardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.theme != widget.theme) {
+    if (oldWidget.card.theme != widget.card.theme) {
       _controller.forward(from: 0.12);
     }
   }
@@ -131,7 +138,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Future<void> _copyCardNumber() async {
     final messenger = ScaffoldMessenger.maybeOf(context);
     await HapticFeedback.mediumImpact();
-    await Clipboard.setData(ClipboardData(text: formatCardNumber(_cardNumber)));
+    await Clipboard.setData(
+      ClipboardData(text: formatCardNumber(widget.card.number)),
+    );
     messenger
       ?..hideCurrentSnackBar()
       ..showSnackBar(
@@ -215,13 +224,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                           _CardFace(
                             visible: _flipController.value < 0.5,
                             matrix: frontMatrix,
-                            gradient: widget.theme.gradient,
+                            gradient: widget.card.theme.gradient,
                             shinePosition: _shineAnimation.value,
                             glowStrength: glowStrength,
-                            cardNumber: formatCardNumber(_cardNumber),
-                            cardholder: _cardholder,
-                            expiry: _expiry,
-                            cvv: _cvv,
+                            cardNumber: formatCardNumber(widget.card.number),
+                            cardholder: widget.card.cardholder,
+                            expiry: widget.card.expiry,
+                            cvv: widget.card.cvv,
                             showBack: false,
                             isCardNumberRevealed: _revealCardNumber,
                             onPeekToggle: _togglePeek,
@@ -232,13 +241,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                           _CardFace(
                             visible: _flipController.value >= 0.5,
                             matrix: backMatrix,
-                            gradient: widget.theme.gradient,
+                            gradient: widget.card.theme.gradient,
                             shinePosition: _shineAnimation.value,
                             glowStrength: glowStrength,
-                            cardNumber: formatCardNumber(_cardNumber),
-                            cardholder: _cardholder,
-                            expiry: _expiry,
-                            cvv: _cvv,
+                            cardNumber: formatCardNumber(widget.card.number),
+                            cardholder: widget.card.cardholder,
+                            expiry: widget.card.expiry,
+                            cvv: widget.card.cvv,
                             showBack: true,
                             isCardNumberRevealed: _revealCardNumber,
                             onPeekToggle: _togglePeek,
@@ -256,6 +265,43 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
         );
       },
+    );
+  }
+}
+
+/// The front of a card at rest, with no gestures. Used for the wallet stack
+/// and for the Hero flight between the stack and the detail screen.
+class CreditCardFace extends StatelessWidget {
+  const CreditCardFace({super.key, required this.card});
+
+  final WalletCard card;
+
+  static Future<void> _noop() async {}
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: AspectRatio(
+        aspectRatio: 1.586,
+        child: _CardFace(
+          visible: true,
+          matrix: Matrix4.identity(),
+          gradient: card.theme.gradient,
+          // The same values the interactive card settles on after its entry.
+          shinePosition: 1.4,
+          glowStrength: 0.5,
+          cardNumber: formatCardNumber(card.number),
+          cardholder: card.cardholder,
+          expiry: card.expiry,
+          cvv: card.cvv,
+          showBack: false,
+          isCardNumberRevealed: false,
+          onPeekToggle: _noop,
+          peekAnimation: kAlwaysDismissedAnimation,
+          isCvvRevealed: false,
+          onCvvToggle: () {},
+        ),
+      ),
     );
   }
 }
