@@ -1,13 +1,16 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/wallet_card.dart';
+import '../state/device_tilt.dart';
 import '../utils/card_number_formatter.dart';
 import 'card_painter.dart';
 import 'frost_overlay.dart';
+import 'holo_foil.dart';
 
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
@@ -36,6 +39,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   late final Animation<double> _shineAnimation;
 
   Offset _tiltOffset = Offset.zero;
+  final DeviceTilt _deviceTilt = DeviceTilt();
+
+  /// Where the holographic foil is, from the phone's tilt plus the finger's.
+  final ValueNotifier<Offset> _foil = ValueNotifier(Offset.zero);
   bool _showBack = false;
   bool _revealCardNumber = false;
   bool _revealCvv = false;
@@ -73,6 +80,17 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     } else {
       _controller.value = 1;
     }
+    _deviceTilt.tilt.addListener(_updateFoil);
+    _deviceTilt.start();
+  }
+
+  // The touch tilt tops out at ±0.11 and ±0.14 radians; scale it to ±1.
+  void _updateFoil() {
+    final device = _deviceTilt.tilt.value;
+    _foil.value = Offset(
+      (device.dx + _tiltOffset.dx / 0.11).clamp(-1.0, 1.0),
+      (device.dy + _tiltOffset.dy / 0.14).clamp(-1.0, 1.0),
+    );
   }
 
   @override
@@ -88,6 +106,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     _controller.dispose();
     _flipController.dispose();
     _peekController.dispose();
+    _deviceTilt.dispose();
+    _foil.dispose();
     super.dispose();
   }
 
@@ -100,12 +120,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         y.clamp(-0.5, 0.5) * 0.28,
       );
     });
+    _updateFoil();
   }
 
   void _resetTilt() {
     setState(() {
       _tiltOffset = Offset.zero;
     });
+    _updateFoil();
   }
 
   void _toggleFlip() {
@@ -239,6 +261,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                             isCvvRevealed: _revealCvv,
                             onCvvToggle: _toggleCvv,
                             frozen: widget.card.controls.frozen,
+                            foil: _foil,
                           ),
                           _CardFace(
                             visible: _flipController.value >= 0.5,
@@ -257,6 +280,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                             isCvvRevealed: _revealCvv,
                             onCvvToggle: _toggleCvv,
                             frozen: widget.card.controls.frozen,
+                            foil: _foil,
                           ),
                         ],
                       ),
@@ -328,6 +352,7 @@ class _CardFace extends StatelessWidget {
     required this.isCvvRevealed,
     required this.onCvvToggle,
     required this.frozen,
+    this.foil,
   });
 
   final bool visible;
@@ -346,6 +371,18 @@ class _CardFace extends StatelessWidget {
   final bool isCvvRevealed;
   final VoidCallback onCvvToggle;
   final bool frozen;
+
+  /// The foil's tilt. A card at rest, with no [foil], shows it centred.
+  final ValueListenable<Offset>? foil;
+
+  Widget _buildFoil(Offset offset) {
+    return HoloFoil(
+      // The back is seen mirrored, so its foil moves the other way.
+      offset: showBack ? Offset(-offset.dx, offset.dy) : offset,
+      // Dim the foil under frost so the frost stays the focus.
+      intensity: HoloFoil.intensityFor(offset) * (frozen ? 0.3 : 1),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -385,6 +422,14 @@ class _CardFace extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              Positioned.fill(
+                child: foil == null
+                    ? _buildFoil(Offset.zero)
+                    : ValueListenableBuilder<Offset>(
+                        valueListenable: foil!,
+                        builder: (context, offset, _) => _buildFoil(offset),
+                      ),
               ),
               Positioned.fill(
                 child: ClipRRect(
