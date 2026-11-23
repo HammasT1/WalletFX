@@ -222,4 +222,34 @@ void main() {
     expect(travelControls['onlinePayments'], isFalse);
     expect(travelControls['contactless'], isFalse);
   });
+
+  testWidgets('freezing frosts the card and unfreezing melts it away', (
+    tester,
+  ) async {
+    usePhoneSurface(tester);
+    SharedPreferences.setMockInitialValues({});
+
+    await tester.pumpWidget(const CardFlowApp());
+    await tester.pumpAndSettle();
+    await openCard(tester, 'travel');
+
+    final freezeSwitch = find.descendant(
+      of: find.byKey(const ValueKey('freeze_card')),
+      matching: find.byType(Switch),
+    );
+    await tester.ensureVisible(freezeSwitch);
+
+    await tester.tap(freezeSwitch);
+    await tester.pumpAndSettle();
+    expect(find.text('FROZEN'), findsWidgets);
+
+    await tester.tap(freezeSwitch);
+    // Halfway through the melt the frost is still fading out.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('FROZEN'), findsWidgets);
+
+    await tester.pumpAndSettle();
+    expect(find.text('FROZEN'), findsNothing);
+  });
 }

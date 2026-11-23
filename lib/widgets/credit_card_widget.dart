@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../models/wallet_card.dart';
 import '../utils/card_number_formatter.dart';
 import 'card_painter.dart';
+import 'frost_overlay.dart';
 
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
@@ -567,7 +567,7 @@ class _CardFace extends StatelessWidget {
                   ),
                 ),
               Positioned.fill(
-                child: IgnorePointer(child: _FrostOverlay(frozen: frozen)),
+                child: IgnorePointer(child: FrostOverlay(frozen: frozen)),
               ),
               if (transformed)
                 Positioned.fill(
@@ -597,90 +597,6 @@ class _CardFace extends StatelessWidget {
       return 'assets/discover.svg';
     }
     return 'assets/visa.svg';
-  }
-}
-
-/// Frosts the card over while it is frozen: the face blurs and cools, and a
-/// snowflake spins into place.
-class _FrostOverlay extends StatelessWidget {
-  const _FrostOverlay({required this.frozen});
-
-  final bool frozen;
-
-  @override
-  Widget build(BuildContext context) {
-    // With no begin value the tween starts at its end, so a card that is
-    // already frozen appears frosted without replaying the animation.
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(end: frozen ? 1 : 0),
-      duration: const Duration(milliseconds: 520),
-      curve: Curves.easeOutCubic,
-      builder: (context, t, _) {
-        if (t <= 0.001) {
-          return const SizedBox.shrink();
-        }
-        final snowflake = Curves.easeOutBack.transform(t.clamp(0.0, 1.0));
-
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: BackdropFilter(
-            filter: ui.ImageFilter.blur(sigmaX: 5 * t, sigmaY: 5 * t),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(alpha: 0.30 * t),
-                    const Color(0xFFB3E5FC).withValues(alpha: 0.22 * t),
-                    Colors.white.withValues(alpha: 0.12 * t),
-                  ],
-                ),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.45 * t),
-                  width: 1.2,
-                ),
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Center(
-                child: Opacity(
-                  opacity: t.clamp(0.0, 1.0),
-                  child: Transform.rotate(
-                    angle: (1 - t) * -1.2,
-                    child: Transform.scale(
-                      scale: 0.5 + 0.5 * snowflake,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.ac_unit_rounded,
-                            size: 46,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black26, blurRadius: 12),
-                            ],
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            'FROZEN',
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 4,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 }
 

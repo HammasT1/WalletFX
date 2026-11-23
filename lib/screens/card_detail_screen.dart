@@ -99,11 +99,32 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
     CardControls controls, {
     bool persist = true,
   }) async {
-    await HapticFeedback.selectionClick();
+    final wasFrozen = _controller.cardById(widget.cardId).controls.frozen;
+    if (controls.frozen == wasFrozen) {
+      await HapticFeedback.selectionClick();
+    } else if (controls.frozen) {
+      await HapticFeedback.heavyImpact();
+    } else {
+      await HapticFeedback.mediumImpact();
+    }
     if (!mounted) {
       return;
     }
     _controller.updateControls(widget.cardId, controls, persist: persist);
+    if (controls.frozen && !wasFrozen) {
+      await _playFreezeCrackle();
+    }
+  }
+
+  /// Light taps timed to the ice crystals spreading across the card.
+  Future<void> _playFreezeCrackle() async {
+    for (final delay in const [180, 160, 200]) {
+      await Future<void>.delayed(Duration(milliseconds: delay));
+      if (!mounted) {
+        return;
+      }
+      await HapticFeedback.lightImpact();
+    }
   }
 
   @override
